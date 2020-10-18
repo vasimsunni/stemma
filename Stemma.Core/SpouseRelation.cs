@@ -6,14 +6,14 @@ namespace Stemma.Core
 {
     public class SpouseRelation
     {
-        private long id;
+        private long spouseRelationId;
         private string relation, createdBy, updatedBy;
         private DateTime? createdOn, updatedOn;
         private bool isDeleted;
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long Id { get => id; set => id = value; }
+        public long SpouseRelationId { get => spouseRelationId; set => spouseRelationId = value; }
         public string Relation { get => relation; set => relation = value; }
         public string CreatedBy { get => createdBy; set => createdBy = value; }
         public DateTime? CreatedOn { get => createdOn; set => createdOn = value; }

@@ -2,6 +2,7 @@
 {
     public enum FileUploadEnum
     {
-        AdminProfilePicture
+        AdminProfilePicture,
+        PersonProfilePicture
     }
 }

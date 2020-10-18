@@ -25,7 +25,7 @@ namespace Stemma.Infrastructure.Repository
         public async Task<IEnumerable<PersonSpouse>> Get(long PersonSpouseId)
         {
             var result = await GetCachedList();
-            return result.Where(x => !x.IsDeleted && x.Id == (PersonSpouseId == 0 ? x.Id : PersonSpouseId)).ToList();
+            return result.Where(x => !x.IsDeleted && x.PersonSpouseId == (PersonSpouseId == 0 ? x.PersonSpouseId : PersonSpouseId)).ToList();
         }
 
         public async Task<PersonSpouse> GetByPerson(long personId)
@@ -40,10 +40,10 @@ namespace Stemma.Infrastructure.Repository
             {
                 try
                 {
-                    if (personSpouse.Id > 0)
+                    if (personSpouse.PersonSpouseId > 0)
                     {
                         var result = await GetCachedList();
-                        var oldPersonSpouse = result.Where(x => x.Id == personSpouse.Id).ToList().LastOrDefault();
+                        var oldPersonSpouse = result.Where(x => x.PersonSpouseId == personSpouse.PersonSpouseId).ToList().LastOrDefault();
 
                         if (oldPersonSpouse != null)
                         {
@@ -57,7 +57,7 @@ namespace Stemma.Infrastructure.Repository
                             unitOfWork.Commit();
                             unitOfWork.Context.Entry(personSpouse).State = EntityState.Detached;
                         }
-                        else personSpouse.Id = 0;
+                        else personSpouse.PersonSpouseId = 0;
                     }
                     else
                     {
@@ -66,9 +66,9 @@ namespace Stemma.Infrastructure.Repository
                         unitOfWork.Commit();
                     }
 
-                    if (personSpouse.Id > 0) RemoveCache();
+                    if (personSpouse.PersonSpouseId > 0) RemoveCache();
 
-                    return personSpouse.Id;
+                    return personSpouse.PersonSpouseId;
                 }
                 catch (Exception)
                 {
@@ -82,7 +82,7 @@ namespace Stemma.Infrastructure.Repository
         public async Task<bool> Delete(long personSpouseId, string deletedByIdentityId, IDatabaseTransaction transaction)
         {
             var result = await GetCachedList();
-            PersonSpouse personSpouse = result.Where(x => !x.IsDeleted && x.Id == personSpouseId).ToList().LastOrDefault();
+            PersonSpouse personSpouse = result.Where(x => !x.IsDeleted && x.PersonSpouseId == personSpouseId).ToList().LastOrDefault();
 
             if (personSpouse != null)
             {

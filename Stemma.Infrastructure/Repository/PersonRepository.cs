@@ -31,13 +31,13 @@ namespace Stemma.Infrastructure.Repository
             return result.Where(
                 x => !x.IsDeleted
                 && (x.FirstName + " " + x.LastName).ToLower().Trim().Contains(!string.IsNullOrEmpty(searchText) ? searchText : (x.FirstName + " " + x.LastName).ToLower().Trim())
-                ).OrderByDescending(x => x.Id).ToList().GetPaged(pageNo, pageSize);
+                ).OrderByDescending(x => x.PersonId).ToList().GetPaged(pageNo, pageSize);
         }
 
-        public async Task<IEnumerable<Person>> Get(long PersonId)
+        public async Task<IEnumerable<Person>> Get(long personId)
         {
             var result = await GetCachedList();
-            return result.Where(x => !x.IsDeleted && x.Id == (PersonId == 0 ? x.Id : PersonId)).ToList();
+            return result.Where(x => !x.IsDeleted && x.PersonId == (personId == 0 ? x.PersonId : personId)).ToList();
         }
 
         public async Task<Person> GetByIdentityId(string identityId)
@@ -52,10 +52,10 @@ namespace Stemma.Infrastructure.Repository
             {
                 try
                 {
-                    if (person.Id > 0)
+                    if (person.PersonId > 0)
                     {
                         var result = await GetCachedList();
-                        var oldPerson = result.Where(x => x.Id == person.Id).ToList().LastOrDefault();
+                        var oldPerson = result.Where(x => x.PersonId == person.PersonId).ToList().LastOrDefault();
 
                         if (oldPerson != null)
                         {
@@ -70,7 +70,7 @@ namespace Stemma.Infrastructure.Repository
                             unitOfWork.Commit();
                             unitOfWork.Context.Entry(person).State = EntityState.Detached;
                         }
-                        else person.Id = 0;
+                        else person.PersonId = 0;
                     }
                     else
                     {
@@ -79,9 +79,9 @@ namespace Stemma.Infrastructure.Repository
                         unitOfWork.Commit();
                     }
 
-                    if (person.Id > 0) RemoveCache();
+                    if (person.PersonId > 0) RemoveCache();
 
-                    return person.Id;
+                    return person.PersonId;
                 }
                 catch (Exception)
                 {
@@ -95,7 +95,7 @@ namespace Stemma.Infrastructure.Repository
         public async Task<bool> Activate(long PersonId, bool isActive, IDatabaseTransaction transaction)
         {
             var result = await GetCachedList();
-            Person person = result.Where(x => !x.IsDeleted && x.Id == PersonId).ToList().LastOrDefault();
+            Person person = result.Where(x => !x.IsDeleted && x.PersonId == PersonId).ToList().LastOrDefault();
 
             if (person != null)
             {
@@ -127,7 +127,7 @@ namespace Stemma.Infrastructure.Repository
         public async Task<bool> Delete(long personId, string deletedByIdentityId, IDatabaseTransaction transaction)
         {
             var result = await GetCachedList();
-            Person person = result.Where(x => !x.IsDeleted && x.Id == personId).ToList().LastOrDefault();
+            Person person = result.Where(x => !x.IsDeleted && x.PersonId == personId).ToList().LastOrDefault();
 
             if (person != null)
             {
@@ -158,6 +158,13 @@ namespace Stemma.Infrastructure.Repository
 
             return false;
         }
+
+        public async Task<long> TotalBySurname(long surnameId)
+        {
+            var result = await GetCachedList();
+            return result.Where(x => !x.IsDeleted && x.SurnameIDF ==surnameId).LongCount();
+        }
+
 
         private async Task<IEnumerable<Person>> GetCachedList()
         {

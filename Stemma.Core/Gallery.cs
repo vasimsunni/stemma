@@ -6,14 +6,14 @@ namespace Stemma.Core
 {
     public class Gallery
     {
-        private long id, fileUploadId, galleryTypeIDF;
+        private long galleryId, fileUploadId, galleryTypeIDF;
         private string itemName, itemType, createdBy, updatedBy;
         private DateTime? itemDate, createdOn, updatedOn;
         private bool isDeleted;
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long Id { get => id; set => id = value; }
+        public long GalleryId { get => galleryId; set => galleryId = value; }
         public long FileUploadId { get => fileUploadId; set => fileUploadId = value; }
         public string ItemName { get => itemName; set => itemName = value; }
         public DateTime? ItemDate { get => itemDate; set => itemDate = value; }

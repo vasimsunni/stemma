@@ -16,6 +16,13 @@ namespace Stemma.Services.Configurations.DataExtention
             services.AddScoped<IUserResolverService, UserResolverService>();
             services.AddScoped<IAdministratorService, AdministratorService>();
             services.AddScoped<IFileUploadService, FileUploadService>();
+            //services.AddScoped<IGalleryPersonService, GalleryPersonService>();
+            //services.AddScoped<IGalleryService, GalleryService>();
+            //services.AddScoped<IGalleryTypeService, GalleryTypeService>();
+            services.AddScoped<IPersonService, PersonService>();
+            //services.AddScoped<IPersonSpouseService, PersonSpouseService>();
+            //services.AddScoped<ISpouseRelationService, SpouseRelationService>();
+            services.AddScoped<ISurnameService, SurnameService>();
 
             return services;
         }

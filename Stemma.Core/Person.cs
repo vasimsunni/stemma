@@ -6,14 +6,14 @@ namespace Stemma.Core
 {
     public class Person
     {
-        private long id, surnameIDF, fatherPersonIDF, motherPersonIDF, continentIDF, countryIDF, stateIDF;
+        private long personId, surnameIDF, fatherPersonIDF, motherPersonIDF, continentIDF, countryIDF, stateIDF;
         private string identityUserIDF,firstName, lastName, gender, email, mobileNumber, alternativeNumber, emergencyNumber, city, address, createdBy, updatedBy;
         private DateTime? dOB, dOD, createdOn, updatedOn;
         private bool isActive, isDeleted;
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long Id { get => id; set => id = value; }
+        public long PersonId { get => personId; set => personId = value; }
         public string IdentityUserIDF { get => identityUserIDF; set => identityUserIDF = value; }
         public string FirstName { get => firstName; set => firstName = value; }
         public string LastName { get => lastName; set => lastName = value; }

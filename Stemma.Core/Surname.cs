@@ -1,18 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Stemma.Core
 {
-   public class Surname
+    public class Surname
     {
-        private long id;
-        private string surnameText,createdBy,updatedBy;
-        private DateTime? createdOn,updatedOn;
+        private long surnameId;
+        private string title, createdBy, updatedBy;
+        private DateTime? createdOn, updatedOn;
         private bool isDeleted;
 
-        public long Id { get => id; set => id = value; }
-        public string SurnameText { get => surnameText; set => this.surnameText = value; }
+        public long SurnameId { get => surnameId; set => surnameId = value; }
+        public string Title { get => title; set => title = value; }
         public string CreatedBy { get => createdBy; set => createdBy = value; }
         public string UpdatedBy { get => updatedBy; set => updatedBy = value; }
         public DateTime? CreatedOn { get => createdOn; set => createdOn = value; }

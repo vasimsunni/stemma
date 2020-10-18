@@ -25,7 +25,7 @@ namespace Stemma.Infrastructure.Repository
         public async Task<IEnumerable<Gallery>> Get(long GalleryId)
         {
             var result = await GetCachedList();
-            return result.Where(x => !x.IsDeleted && x.Id == (GalleryId == 0 ? x.Id : GalleryId)).ToList();
+            return result.Where(x => !x.IsDeleted && x.GalleryId == (GalleryId == 0 ? x.GalleryId : GalleryId)).ToList();
         }
 
         public async Task<Gallery> GetByGalleryType(long galleryTypeId)
@@ -34,16 +34,31 @@ namespace Stemma.Infrastructure.Repository
             return result.Where(x => !x.IsDeleted && x.GalleryTypeIDF == galleryTypeId).LastOrDefault();
         }
 
+        public async Task<Gallery> GetPersonProfilePicture(long personId)
+        {
+            var galleryPerson = unitOfWork.Context.GalleryPeople.Where(x => x.PersonIDF == personId && !x.IsDeleted).LastOrDefault();
+
+            if (galleryPerson!=null)
+            {
+                var result = await GetCachedList();
+                var gallery= result.Where(x => x.GalleryTypeIDF == galleryPerson.GalleryIDF).LastOrDefault();
+
+                return gallery.IsDeleted ? null : gallery;
+            }
+
+            return null;
+        }
+
         public async Task<long> Save(Gallery gallery, IDatabaseTransaction transaction)
         {
             using (transaction)
             {
                 try
                 {
-                    if (gallery.Id > 0)
+                    if (gallery.GalleryId > 0)
                     {
                         var result = await GetCachedList();
-                        var oldGallery = result.Where(x => x.Id == gallery.Id).ToList().LastOrDefault();
+                        var oldGallery = result.Where(x => x.GalleryId == gallery.GalleryId).ToList().LastOrDefault();
 
                         if (oldGallery != null)
                         {
@@ -57,7 +72,7 @@ namespace Stemma.Infrastructure.Repository
                             unitOfWork.Commit();
                             unitOfWork.Context.Entry(gallery).State = EntityState.Detached;
                         }
-                        else gallery.Id = 0;
+                        else gallery.GalleryId = 0;
                     }
                     else
                     {
@@ -66,9 +81,9 @@ namespace Stemma.Infrastructure.Repository
                         unitOfWork.Commit();
                     }
 
-                    if (gallery.Id > 0) RemoveCache();
+                    if (gallery.GalleryId > 0) RemoveCache();
 
-                    return gallery.Id;
+                    return gallery.GalleryId;
                 }
                 catch (Exception)
                 {
@@ -84,7 +99,7 @@ namespace Stemma.Infrastructure.Repository
         public async Task<bool> Delete(long galleryId, string deletedByIdentityId, IDatabaseTransaction transaction)
         {
             var result = await GetCachedList();
-            Gallery gallery = result.Where(x => !x.IsDeleted && x.Id == galleryId).ToList().LastOrDefault();
+            Gallery gallery = result.Where(x => !x.IsDeleted && x.GalleryId == galleryId).ToList().LastOrDefault();
 
             if (gallery != null)
             {

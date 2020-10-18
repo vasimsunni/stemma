@@ -11,6 +11,7 @@ namespace Stemma.Infrastructure.Interface
     {
         Task<IEnumerable<Gallery>> Get(long galleryId);
         Task<Gallery> GetByGalleryType(long galleryTypeId);
+        Task<Gallery> GetPersonProfilePicture(long personId);
         Task<long> Save(Gallery gallery, IDatabaseTransaction transaction);
         Task<bool> Delete(long galleryId, string deletedByIdentityId, IDatabaseTransaction transaction);
     }

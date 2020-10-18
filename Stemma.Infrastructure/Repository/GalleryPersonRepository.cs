@@ -24,7 +24,7 @@ namespace Stemma.Infrastructure.Repository
         public async Task<IEnumerable<GalleryPerson>> Get(long galleryPersonId)
         {
             var result = await GetCachedList();
-            return result.Where(x => !x.IsDeleted && x.Id == (galleryPersonId == 0 ? x.Id : galleryPersonId)).ToList();
+            return result.Where(x => !x.IsDeleted && x.GalleryPersonId == (galleryPersonId == 0 ? x.GalleryPersonId : galleryPersonId)).ToList();
         }
 
         public async Task<GalleryPerson> GetByGallery(long galleryId)
@@ -45,10 +45,10 @@ namespace Stemma.Infrastructure.Repository
             {
                 try
                 {
-                    if (galleryPerson.Id > 0)
+                    if (galleryPerson.GalleryPersonId > 0)
                     {
                         var result = await GetCachedList();
-                        var oldGalleryPerson = result.Where(x => x.Id == galleryPerson.Id).ToList().LastOrDefault();
+                        var oldGalleryPerson = result.Where(x => x.GalleryPersonId == galleryPerson.GalleryPersonId).ToList().LastOrDefault();
 
                         if (oldGalleryPerson != null)
                         {
@@ -62,7 +62,7 @@ namespace Stemma.Infrastructure.Repository
                             unitOfWork.Commit();
                             unitOfWork.Context.Entry(galleryPerson).State = EntityState.Detached;
                         }
-                        else galleryPerson.Id = 0;
+                        else galleryPerson.GalleryPersonId = 0;
                     }
                     else
                     {
@@ -71,9 +71,9 @@ namespace Stemma.Infrastructure.Repository
                         unitOfWork.Commit();
                     }
 
-                    if (galleryPerson.Id > 0) RemoveCache();
+                    if (galleryPerson.GalleryPersonId > 0) RemoveCache();
 
-                    return galleryPerson.Id;
+                    return galleryPerson.GalleryPersonId;
                 }
                 catch (Exception)
                 {
@@ -87,7 +87,7 @@ namespace Stemma.Infrastructure.Repository
         public async Task<bool> Delete(long galleryPersonId, string deletedByIdentityId, IDatabaseTransaction transaction)
         {
             var result = await GetCachedList();
-            GalleryPerson galleryPerson = result.Where(x => !x.IsDeleted && x.Id == galleryPersonId).ToList().LastOrDefault();
+            GalleryPerson galleryPerson = result.Where(x => !x.IsDeleted && x.GalleryPersonId == galleryPersonId).ToList().LastOrDefault();
 
             if (galleryPerson != null)
             {

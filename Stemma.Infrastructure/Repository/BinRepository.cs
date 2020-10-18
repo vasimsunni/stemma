@@ -29,7 +29,7 @@ namespace Stemma.Infrastructure.Repository
                 var result = await GetCachedList();
 
                 return result.Where(x => x.Entity.ToLower().Trim().Contains(!string.IsNullOrEmpty(searchText) ? searchText : x.Entity.ToLower().Trim())
-                    ).OrderByDescending(x => x.Id).ToList().GetPaged(pageNo, pageSize);
+                    ).OrderByDescending(x => x.BinId).ToList().GetPaged(pageNo, pageSize);
             }
             catch (Exception ex)
             {
@@ -53,9 +53,9 @@ namespace Stemma.Infrastructure.Repository
             unitOfWork.Context.Set<Bin>().Add(bin);
             unitOfWork.Commit();
 
-            if (bin.Id > 0) RemoveCache();
+            if (bin.BinId > 0) RemoveCache();
 
-            return bin.Id;
+            return bin.BinId;
         }
 
         private async Task<IEnumerable<Bin>> GetCachedList()

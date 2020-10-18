@@ -6,14 +6,14 @@ namespace Stemma.Core
 {
     public class GalleryType
     {
-        private long id;
+        private long galleryTypeId;
         private string type, createdBy, updatedBy;
         private DateTime? createdOn, updatedOn;
         private bool isDeleted;
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long Id { get => id; set => id = value; }
+        public long GalleryTypeId { get => galleryTypeId; set => galleryTypeId = value; }
         public string Type { get => type; set => type = value; }
         public string CreatedBy { get => createdBy; set => createdBy = value; }
         public DateTime? CreatedOn { get => createdOn; set => createdOn = value; }
