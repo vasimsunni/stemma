@@ -93,9 +93,9 @@ namespace WebAPI.Helpers
             else if (response.StatusCode == 415)
                 objectResult.StatusCode = StatusCodes.Status415UnsupportedMediaType;
             else if (response.StatusCode == 416)
-                objectResult.StatusCode = StatusCodes.Status416RangeNotSatisfiable;
+                objectResult.StatusCode = StatusCodes.Status416RangeNoStemmatisfiable;
             else if (response.StatusCode == 416)
-                objectResult.StatusCode = StatusCodes.Status416RequestedRangeNotSatisfiable;
+                objectResult.StatusCode = StatusCodes.Status416RequestedRangeNoStemmatisfiable;
             else if (response.StatusCode == 417)
                 objectResult.StatusCode = StatusCodes.Status417ExpectationFailed;
             else if (response.StatusCode == 418)

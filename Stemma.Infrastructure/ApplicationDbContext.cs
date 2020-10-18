@@ -20,6 +20,13 @@ namespace Stemma.Infrastructure
         public DbSet<Administrator> Administrators { get; set; }
         public DbSet<FileUpload> FileUploads { get; set; }
         public DbSet<Bin> Bin { get; set; }
+        public DbSet<Person> Persons { get; set; }
+        public DbSet<PersonSpouse> PersonSpouses { get; set; }
+        public DbSet<SpouseRelation> SpouseRelations { get; set; }
+        public DbSet<Surname> Surnames { get; set; }
+        public DbSet<GalleryType> GalleryTypes { get; set; }
+        public DbSet<Gallery> Galleries { get; set; }
+        public DbSet<GalleryPerson> GalleryPeople { get; set; }
         #endregion
 
         protected override void OnModelCreating(ModelBuilder builder)
