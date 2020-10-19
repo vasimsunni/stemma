@@ -99,6 +99,26 @@ namespace Stemma.Services.Services
                             if (fatherResult.Any())
                             {
                                 person.Father = mapper.Map<DTOs.Response.Person>(fatherResult.LastOrDefault());
+
+                                PictureURL = string.Empty;
+
+                                var fatherGallery = await galleryRepository.GetPersonProfilePicture(person.Id);
+
+                                if (fatherGallery != null)
+                                {
+                                    var fileUploads = await fileUploadRepository.Get(fatherGallery.GalleryId);
+
+                                    if (fileUploads.Any()) PictureURL = uploadFolderName + "/" + fileUploads.LastOrDefault().Name;
+
+                                    if (string.IsNullOrEmpty(PictureURL))
+                                    {
+                                        string defaultProfilePicture = configuration["UploadFolders:DefaultProfilePicture"];
+                                        PictureURL = BaseURL + uploadFolderName + "/" + defaultProfilePicture;
+                                    }
+                                    else PictureURL = BaseURL + PictureURL;
+                                }
+
+                                person.Father.ProfilePictureURL = PictureURL;
                             }
                         }
 
@@ -109,6 +129,26 @@ namespace Stemma.Services.Services
                             if (motherResult.Any())
                             {
                                 person.Mother = mapper.Map<DTOs.Response.Person>(motherResult.LastOrDefault());
+
+                                PictureURL = string.Empty;
+
+                                var motherGallery = await galleryRepository.GetPersonProfilePicture(person.Id);
+
+                                if (motherGallery != null)
+                                {
+                                    var fileUploads = await fileUploadRepository.Get(motherGallery.GalleryId);
+
+                                    if (fileUploads.Any()) PictureURL = uploadFolderName + "/" + fileUploads.LastOrDefault().Name;
+
+                                    if (string.IsNullOrEmpty(PictureURL))
+                                    {
+                                        string defaultProfilePicture = configuration["UploadFolders:DefaultProfilePicture"];
+                                        PictureURL = BaseURL + uploadFolderName + "/" + defaultProfilePicture;
+                                    }
+                                    else PictureURL = BaseURL + PictureURL;
+                                }
+
+                                person.Mother.ProfilePictureURL = PictureURL;
                             }
                         }
 
@@ -211,6 +251,26 @@ namespace Stemma.Services.Services
                             if (fatherResult.Any())
                             {
                                 person.Father = mapper.Map<DTOs.Response.Person>(fatherResult.LastOrDefault());
+
+                                PictureURL = string.Empty;
+
+                                var fatherGallery = await galleryRepository.GetPersonProfilePicture(person.Father.Id);
+
+                                if (fatherGallery != null)
+                                {
+                                    var fileUploads = await fileUploadRepository.Get(fatherGallery.GalleryId);
+
+                                    if (fileUploads.Any()) PictureURL = uploadFolderName + "/" + fileUploads.LastOrDefault().Name;
+
+                                    if (string.IsNullOrEmpty(PictureURL))
+                                    {
+                                        string defaultProfilePicture = configuration["UploadFolders:DefaultProfilePicture"];
+                                        PictureURL = BaseURL + uploadFolderName + "/" + defaultProfilePicture;
+                                    }
+                                    else PictureURL = BaseURL + PictureURL;
+                                }
+
+                                person.Father.ProfilePictureURL = PictureURL;
                             }
                         }
 
@@ -221,8 +281,29 @@ namespace Stemma.Services.Services
                             if (motherResult.Any())
                             {
                                 person.Mother = mapper.Map<DTOs.Response.Person>(motherResult.LastOrDefault());
+
+                                PictureURL = string.Empty;
+
+                                var motherGallery = await galleryRepository.GetPersonProfilePicture(person.Mother.Id);
+
+                                if (motherGallery != null)
+                                {
+                                    var fileUploads = await fileUploadRepository.Get(motherGallery.GalleryId);
+
+                                    if (fileUploads.Any()) PictureURL = uploadFolderName + "/" + fileUploads.LastOrDefault().Name;
+
+                                    if (string.IsNullOrEmpty(PictureURL))
+                                    {
+                                        string defaultProfilePicture = configuration["UploadFolders:DefaultProfilePicture"];
+                                        PictureURL = BaseURL + uploadFolderName + "/" + defaultProfilePicture;
+                                    }
+                                    else PictureURL = BaseURL + PictureURL;
+                                }
+
+                                person.Mother.ProfilePictureURL = PictureURL;
                             }
                         }
+
 
                         if (person.SurnameIDF > 0)
                         {

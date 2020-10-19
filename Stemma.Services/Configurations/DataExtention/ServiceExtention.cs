@@ -20,8 +20,8 @@ namespace Stemma.Services.Configurations.DataExtention
             //services.AddScoped<IGalleryService, GalleryService>();
             //services.AddScoped<IGalleryTypeService, GalleryTypeService>();
             services.AddScoped<IPersonService, PersonService>();
-            //services.AddScoped<IPersonSpouseService, PersonSpouseService>();
-            //services.AddScoped<ISpouseRelationService, SpouseRelationService>();
+            services.AddScoped<IPersonSpouseService, PersonSpouseService>();
+            services.AddScoped<ISpouseRelationService, SpouseRelationService>();
             services.AddScoped<ISurnameService, SurnameService>();
 
             return services;

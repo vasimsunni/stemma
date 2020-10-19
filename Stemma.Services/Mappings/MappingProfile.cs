@@ -42,6 +42,14 @@ namespace Stemma.Services.Mappings
                .ForMember(dest => dest.Id, source => source.MapFrom(src => src.SurnameId))
                .ReverseMap();
 
+            CreateMap<Stemma.Core.SpouseRelation, DTOs.Response.SpouseRelation>()
+              .ForMember(dest => dest.Id, source => source.MapFrom(src => src.SpouseRelationId))
+              .ReverseMap();
+
+            CreateMap<Stemma.Core.SpouseRelation, DTOs.Request.SpouseRelation>()
+               .ForMember(dest => dest.Id, source => source.MapFrom(src => src.SpouseRelationId))
+               .ReverseMap();
+
             //CreateMap<FileUpload, FileUploadRequestDTO>()
             //   .ForMember(dest => dest.Id, source => source.MapFrom(src => src.FileId))
             //   .ReverseMap();

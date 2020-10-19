@@ -31,7 +31,7 @@ namespace Stemma.Infrastructure.Repository
         public async Task<PersonSpouse> GetByPerson(long personId)
         {
             var result = await GetCachedList();
-            return result.Where(x => !x.IsDeleted && x.PersonIdF == personId).LastOrDefault();
+            return result.Where(x => !x.IsDeleted && x.PersonIdF == personId || x.SpousePersonIDF==personId).LastOrDefault();
         }
 
         public async Task<long> Save(PersonSpouse personSpouse, IDatabaseTransaction transaction)
