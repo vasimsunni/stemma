@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Stemma.Core;
 using Stemma.Infrastructure.Caching;
 using Stemma.Infrastructure.Interface;
+using Stemma.Infrastructure.DTOs;
+using Stemma.Infrastructure.UtilityHelper;
 
 namespace Stemma.Infrastructure.Repository
 {
@@ -22,17 +24,36 @@ namespace Stemma.Infrastructure.Repository
             this.binRepository = binRepository;
         }
 
+        public async Task<PagedResult<Gallery>> Filter(string searchText, int pageNo, int pageSize)
+        {
+            var result = await GetCachedList();
+
+            return result.Where(
+                x => !x.IsDeleted
+                && (x.ItemName).ToLower().Trim().Contains(!string.IsNullOrEmpty(searchText) ? searchText : (x.ItemName).ToLower().Trim())
+                ).OrderByDescending(x => x.GalleryId).ToList().GetPaged(pageNo, pageSize);
+        }
+
         public async Task<IEnumerable<Gallery>> Get(long GalleryId)
         {
             var result = await GetCachedList();
             return result.Where(x => !x.IsDeleted && x.GalleryId == (GalleryId == 0 ? x.GalleryId : GalleryId)).ToList();
         }
 
-        public async Task<Gallery> GetByGalleryType(long galleryTypeId)
+        public async Task<IEnumerable<Gallery>> GetByGalleryType(long galleryTypeId)
         {
             var result = await GetCachedList();
-            return result.Where(x => !x.IsDeleted && x.GalleryTypeIDF == galleryTypeId).LastOrDefault();
+            return result.Where(x => !x.IsDeleted && x.GalleryTypeIDF == galleryTypeId).ToList();
         }
+
+        public async Task<IEnumerable<Gallery>> GetByPerson(long personId)
+        {
+            var galleryPerson = await unitOfWork.Context.GalleryPeople.Where(x => x.PersonIDF == personId).ToListAsync();
+
+            var result = await GetCachedList();
+            return result.Where(x => !x.IsDeleted && galleryPerson.Any(gp=> x.GalleryId == gp.GalleryIDF)).ToList();
+        }
+        
 
         public async Task<Gallery> GetPersonProfilePicture(long personId)
         {
@@ -131,6 +152,13 @@ namespace Stemma.Infrastructure.Repository
             return false;
 
         }
+
+        public async Task<long> TotalByGalleryType(long galleryTypeId)
+        {
+            var result = await GetCachedList();
+            return result.Where(x => !x.IsDeleted && x.GalleryTypeIDF == galleryTypeId).LongCount();
+        }
+
 
         private async Task<IEnumerable<Gallery>> GetCachedList()
         {

@@ -119,6 +119,12 @@ namespace Stemma.Infrastructure.Repository
             return false;
         }
 
+        public async Task<long> TotalPerson(long galleryId)
+        {
+            var result = await GetCachedList();
+            return result.Where(x => !x.IsDeleted && x.GalleryIDF == galleryId).LongCount();
+        }
+
         private async Task<IEnumerable<GalleryPerson>> GetCachedList()
         {
             return await cachingService.GetOrCreateAsync(

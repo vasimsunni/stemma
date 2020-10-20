@@ -17,45 +17,37 @@ namespace WebAPI.Controllers
     [EnableCors("CorsPolicy")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Authorize(Roles = "Super Admin, Admin")]
-    public class PersonSpouseController : ControllerBase
+    public class GalleryTypeController : ControllerBase
     {
-        private readonly IPersonSpouseService personSpouseService;
+        private readonly IGalleryTypeService galleryTypeService;
         private readonly IMapper mapper;
 
-        public PersonSpouseController(IPersonSpouseService personSpouseService, IMapper mapper)
+        public GalleryTypeController(IGalleryTypeService galleryTypeService, IMapper mapper)
         {
-            this.personSpouseService = personSpouseService;
+            this.galleryTypeService = galleryTypeService;
             this.mapper = mapper;
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> Get([Range(0, long.MaxValue)] long id)
         {
-            var serviceResponse = await personSpouseService.Get(id);
-            var response = mapper.Map<ResponseDTO<object>>(serviceResponse);
-            return ResponseHelper<object>.GenerateResponse(response);
-        }
-
-        [HttpGet("GetByPerson/{personId}")]
-        public async Task<IActionResult> GetByPerson([Range(0, long.MaxValue)] long personId)
-        {
-            var serviceResponse = await personSpouseService.GetByPerson(personId);
+            var serviceResponse = await galleryTypeService.Get(id);
             var response = mapper.Map<ResponseDTO<object>>(serviceResponse);
             return ResponseHelper<object>.GenerateResponse(response);
         }
 
         [HttpPost("Create")]
-        public async Task<IActionResult> Create(Stemma.Services.DTOs.Request.PersonSpouse model)
+        public async Task<IActionResult> Create(Stemma.Services.DTOs.Request.GalleryType model)
         {
-            var serviceResponse = await personSpouseService.Create(model);
+            var serviceResponse = await galleryTypeService.Create(model);
             var response = mapper.Map<ResponseDTO<object>>(serviceResponse);
             return ResponseHelper<object>.GenerateResponse(response);
         }
 
         [HttpPut("Update")]
-        public async Task<IActionResult> Update(Stemma.Services.DTOs.Request.PersonSpouse model)
+        public async Task<IActionResult> Update(Stemma.Services.DTOs.Request.GalleryType model)
         {
-            var serviceResponse = await personSpouseService.Update(model);
+            var serviceResponse = await galleryTypeService.Update(model);
             var response = mapper.Map<ResponseDTO<object>>(serviceResponse);
             return ResponseHelper<object>.GenerateResponse(response);
         }
@@ -63,7 +55,7 @@ namespace WebAPI.Controllers
         [HttpDelete("Delete")]
         public async Task<IActionResult> Delete([Range(1, long.MaxValue)] long id)
         {
-            var serviceResponse = await personSpouseService.Delete(id);
+            var serviceResponse = await galleryTypeService.Delete(id);
             var response = mapper.Map<ResponseDTO<object>>(serviceResponse);
             return ResponseHelper<object>.GenerateResponse(response);
         }

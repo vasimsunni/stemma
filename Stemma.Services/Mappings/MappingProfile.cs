@@ -11,12 +11,18 @@ namespace Stemma.Services.Mappings
             var UploadFolderURL = configuration["Utility:APIBaseURL"] + "/" + configuration["UploadFolders:UploadFolder"] + "/";
             var DefaultPictureURL = UploadFolderURL + configuration["UploadFolders:DefaultProfilePicture"];
 
-           // Generic type mapping(for paging)
-                CreateMap(typeof(Infrastructure.DTOs.PagedResult<>), typeof(DTOs.Response.PaginatedResponse<>)).ReverseMap();
+            // Generic type mapping(for paging)
+            CreateMap(typeof(Infrastructure.DTOs.PagedResult<>), typeof(DTOs.Response.PaginatedResponse<>)).ReverseMap();
 
             //User Details
             //CreateMap<UserDetailsDTO, UserDetailsResponseDTO>()
             //    .ForMember(dest => dest.ProfilePictureURL, source => source.MapFrom(src => src.ProfilePictureName.Trim() == "" ? DefaultPictureURL : UploadFolderURL + src.ProfilePictureName));
+
+
+
+            //CreateMap<FileUpload, FileUploadRequestDTO>()
+            //   .ForMember(dest => dest.Id, source => source.MapFrom(src => src.FileId))
+            //   .ReverseMap();
 
             CreateMap<Stemma.Core.Administrator, DTOs.Response.Administrator>()
                 .ForMember(dest => dest.Id, source => source.MapFrom(src => src.AdminId))
@@ -50,9 +56,21 @@ namespace Stemma.Services.Mappings
                .ForMember(dest => dest.Id, source => source.MapFrom(src => src.SpouseRelationId))
                .ReverseMap();
 
-            //CreateMap<FileUpload, FileUploadRequestDTO>()
-            //   .ForMember(dest => dest.Id, source => source.MapFrom(src => src.FileId))
-            //   .ReverseMap();
+            CreateMap<Stemma.Core.GalleryType, DTOs.Response.GalleryType>()
+              .ForMember(dest => dest.Id, source => source.MapFrom(src => src.GalleryTypeId))
+              .ReverseMap();
+
+            CreateMap<Stemma.Core.GalleryType, DTOs.Request.GalleryType>()
+               .ForMember(dest => dest.Id, source => source.MapFrom(src => src.GalleryTypeId))
+               .ReverseMap();
+
+            CreateMap<Stemma.Core.Gallery, DTOs.Response.Gallery>()
+             .ForMember(dest => dest.Id, source => source.MapFrom(src => src.GalleryId))
+             .ReverseMap();
+
+            CreateMap<Stemma.Core.Gallery, DTOs.Request.Gallery>()
+               .ForMember(dest => dest.Id, source => source.MapFrom(src => src.GalleryId))
+               .ReverseMap();
         }
     }
 }
